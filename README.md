@@ -8,13 +8,13 @@ This extention allows you to accept payment on your OpenCart store using Jualio 
 2. Extract the extention folder to your desktop.
 3. Read through the README.md file thoroughly to ensure you follow the installation instructions.
 4. With your FTP program, upload the contents of the extention folder to their respective folder in your OpenCartdirectory online. For example the file `/jualio-for-opencart/admin/controller/payment/jualio.php` should be copied to `www.youropencartstore.com/public/admin/controller/payment/jualio.php`.
-5. Login to your OpenCart store admin page and go to the Payment > Extensions screen, and find the newly uploaded Jualio Payment in the list.
+5. Login to your OpenCart store admin page and go to the Payment > Extensions screen, and find the newly uploaded Jualio Payment in the list. ![Payment > Extensions](screenshot-2.png "Payment > Extensions")
 6. Click the install link
 
 ## Usage
 
 1.  Login to your OpenCart store admin page and go to the Payment > Extensions screen, and click the edit link on the Jualio Payment
-2. Fill in the detail on the form. Refer to your Jualio account for your Client ID and Customer Key [screenshot-4.png]
+2. ![Payment > Extensions > Jualio](screenshot-1.png "Payment > Extensions > Jualio") Fill in the detail on the form. Refer to your Jualio account for your Client ID and Customer Key [screenshot-4.png]
 3. Don't forget to select the 'Enable' Option on Status Input to enable Jualio for OpenCart
 4. Click Save button
 
