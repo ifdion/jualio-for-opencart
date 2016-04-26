@@ -32,8 +32,3 @@ This extention allows you to accept payment on your OpenCart store using Jualio 
 - **Failed Status** : Select the status for failed payment status. You can create new status on the System > Settings page.
 - **Status** : Select the 'Enable' Option on Status Input to enable Jualio for OpenCart
 - **Sort Order** : The order of the Payment listed on the checkout page.
-
-
-
-
-the wp-content/plugins folder in your WordPress directory online.
