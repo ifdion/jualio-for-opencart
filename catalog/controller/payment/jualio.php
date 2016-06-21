@@ -98,6 +98,8 @@ class ControllerPaymentJualio extends Controller {
 			$this->data['return'] = $this->url->link('checkout/success');
 			$this->data['notify_url'] = $this->url->link('payment/jualio/callback', '', 'SSL'); // JUALIO
 			$this->data['cancel_return'] = $this->url->link('checkout/checkout', '', 'SSL');
+
+			$this->data['callback_url'] = $this->url->link('checkout/success'); // TEST 2
 			
 			if (!$this->config->get('jualio_transaction')) {
 				$this->data['paymentaction'] = 'authorization';
@@ -156,12 +158,16 @@ class ControllerPaymentJualio extends Controller {
         $order_status_id = $this->config->get('jualio_completed_status_id');
         if ($this->config->get('jualio_success_return')) {
         	$return_url = $this->config->get('jualio_success_return');
+        } else {
+        	$return_url = $this->url->link('checkout/success');
         }
 
       } else {
       	$order_status_id = $this->config->get('jualio_failed_status_id');
         if ($this->config->get('jualio_fail_return')) {
         	$return_url = $this->config->get('jualio_fail_return');
+        } else {
+        	$return_url = $this->url->link('checkout/checkout');
         }
       }
 
