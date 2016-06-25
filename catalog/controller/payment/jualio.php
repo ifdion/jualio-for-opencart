@@ -45,14 +45,26 @@ class ControllerPaymentJualio extends Controller {
 					$description_string = $description_string.' '.$option['name'].':'.(utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value).' ';
 				}
 
+				// original product data
+				// $product_data = array(
+				// 	'name'     => $product['name'],
+				// 	'model'    => $product['model'],
+				// 	'price'    => $this->currency->format($product['price'], $order_info['currency_code'], false, false),
+				// 	'quantity' => $product['quantity'],
+				// 	'option'   => $option_data,
+				// 	'weight'   => $product['weight']
+				// );
+
+				// modified product data
 				$product_data = array(
 					'name'     => $product['name'],
 					'model'    => $product['model'],
-					'price'    => $this->currency->format($product['price'], $order_info['currency_code'], false, false),
-					'quantity' => $product['quantity'],
+					'price'    => $this->currency->format($product['price'], $order_info['currency_code'], false, false) * $product['quantity'],
+					'quantity' => 1,
 					'option'   => $option_data,
 					'weight'   => $product['weight']
 				);
+
 				$product_data['description'] = $description_string;
 
 				if ($product['image'] != '') {
