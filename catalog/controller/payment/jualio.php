@@ -108,10 +108,11 @@ class ControllerPaymentJualio extends Controller {
 			$this->data['invoice'] = $this->session->data['order_id']; // JUALIO
 			$this->data['lc'] = $this->session->data['language'];
 			$this->data['return'] = $this->url->link('checkout/success');
-			$this->data['notify_url'] = $this->url->link('payment/jualio/callback', '', 'SSL'); // JUALIO
+			$this->data['notify_url'] = $this->url->link('payment/jualio/notify', '', 'SSL'); // JUALIO
+			$this->data['callback_url'] = $this->url->link('payment/jualio/callback', '', 'SSL'); // JUALIO
 			$this->data['cancel_return'] = $this->url->link('checkout/checkout', '', 'SSL');
 
-			$this->data['callback_url'] = $this->url->link('checkout/success'); // TEST 2
+			// $this->data['callback_url'] = $this->url->link('checkout/success'); // TEST 2
 			
 			if (!$this->config->get('jualio_transaction')) {
 				$this->data['paymentaction'] = 'authorization';
@@ -147,13 +148,48 @@ class ControllerPaymentJualio extends Controller {
 		}
 	}
 	
+	public function notify() {
+		$input = json_decode(file_get_contents("php://input"));
+
+		if ($input->object == 'transaction_notify' && $input->transaction->status == 'SUCCESS') {
+
+			$order_id = $input->transaction->invoice_no;
+
+			$this->load->model('checkout/order');
+			$order_info = $this->model_checkout_order->getOrder(intval($order_id));
+
+			if ($order_info) {
+
+				$order_status_id = $this->config->get('jualio_completed_status_id');
+
+				if ($order_info->$order_status_id) {
+					$this->model_checkout_order->confirm($order_id, $order_status_id);
+				} else {
+					$this->model_checkout_order->update($order_id, $order_status_id);
+				}
+
+				header('Content-Type: application/json');
+				header('X-PHP-Response-Code: 200', true, 200);
+
+				// DEBUG here
+				// $return_json = json_encode($order_info);
+				// echo $return_json;
+			}
+		}
+	}
+
 	public function callback() {
 
 		if (isset($this->request->post['orderid'])) {
 			$order_id = trim(substr(($this->request->post['orderid']), 6));
 		} else {
 			$order_id = 0;
-		}		
+		}
+
+		$return = array(
+			'status' => 'success',
+			'order_id' => $orderid
+		);
 		
 		$this->load->model('checkout/order');
 				
@@ -183,7 +219,14 @@ class ControllerPaymentJualio extends Controller {
         }
       }
 
+			if (!$order_info->$order_status_id) {
+				$this->model_checkout_order->confirm($order_id, $order_status_id);
+			} else {
+				$this->model_checkout_order->update($order_id, $order_status_id);
+			}
+
       $this->model_checkout_order->confirm($order_id, $order_status_id);
+
       header('Location: '.$return_url);
     }
 
