@@ -45,6 +45,7 @@
   <input type="hidden" name="charset" value="utf-8" />
   <input type="hidden" name="return" value="<?php echo $return; ?>" />
   <input type="hidden" name="notify_url" value="<?php echo $notify_url; ?>" />
+  <input type="hidden" name="callback_url" value="<?php echo $callback_url; ?>" />
   <input type="hidden" name="cancel_return" value="<?php echo $cancel_return; ?>" />
   <input type="hidden" name="paymentaction" value="<?php echo $paymentaction; ?>" />
   <input type="hidden" name="custom" value="<?php echo $custom; ?>" />
@@ -65,11 +66,12 @@
 </form>
 <script type="text/javascript">
   jQuery(document).ready(function($) {
-    console.log('ready i am');
+    console.log('ready i am yes');
     var jualioForm = $('#jualio-form');
     var jualioPaymentRequest = {
       object : 'payment',
-      callback_url : jualioForm.find('[name="notify_url"]').val()+'&orderid='+jualioForm.find('[name="orderid"]').val(),
+      callback_url : jualioForm.find('[name="callback_url"]').val()+'&orderid='+jualioForm.find('[name="orderid"]').val(),
+      notify_url : jualioForm.find('[name="notify_url"]').val()+'&orderid='+jualioForm.find('[name="orderid"]').val(),
       customer_key : jualioForm.find('[name="jualio_customer_key"]').val(),
       invoice_no : jualioForm.find('[name="invoice"]').val(),
       carts : [],
