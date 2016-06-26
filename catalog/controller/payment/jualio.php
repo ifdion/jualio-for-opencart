@@ -120,6 +120,10 @@ class ControllerPaymentJualio extends Controller {
 				$this->data['paymentaction'] = 'sale';
 			}
 			
+			// save as pending before request payment
+			$order_status_id = $this->config->get('jualio_failed_status_id');
+			$this->model_checkout_order->confirm($this->session->data['order_id'], $order_status_id);
+
 			$this->data['custom'] = $this->encryption->encrypt($this->session->data['order_id']);
 		
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/jualio.tpl')) {
